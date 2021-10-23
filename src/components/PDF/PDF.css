@@ -7,6 +7,7 @@
     background-color: rgb(221, 220, 220);
     border: 2px dashed rgb(172, 172, 172);
     border-radius: 10px;
+    box-sizing: border-box;
 }
 
 .dropzone__input {
@@ -21,4 +22,8 @@
 .page {
     display: flex;
     justify-content: center;
+}
+
+.text-container {
+    text-align: center;
 }
