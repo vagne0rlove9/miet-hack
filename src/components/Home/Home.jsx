@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory, withRouter } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Grid from '@mui/material/Grid';
 import TypeCard from '../TypeCard/TypeCard';
 
@@ -9,7 +9,6 @@ const Home = () => {
     const history = useHistory();
 
     const clickCardHandler = type => {
-        console.log(111);
         history.push(`/${type}`);
     }
 

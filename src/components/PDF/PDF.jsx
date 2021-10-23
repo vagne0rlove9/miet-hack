@@ -11,11 +11,8 @@ import './PDF.css';
 const PDF = () => {
     const [numPages, setNumPages] = useState(null);
     const [pageNumber, setPageNumber] = useState(null);
+    const [zoom, setZoom] = useState(1);
     const [file, setFile] = useState([]);
-    const [isEnableForward, setEnableForward] = useState(false);
-    const [isEnableBack, setEnableBack] = useState(true);
-    const [isEnableFirst, setEnableFirst] = useState(true);
-    const [isEnableLast, setEnableLast] = useState(false);
 
     const onDrop = useCallback(acceptedFiles => {
         setFile(acceptedFiles);
@@ -31,11 +28,11 @@ const PDF = () => {
     const deleteHandler = event => {
         event.stopPropagation();
         setFile([]);
-        setNumPages(null);
+        setPageNumber(null);
     }
 
     const changePageHandler = event => {
-        if(!pageNumber) {
+        if (!pageNumber) {
             return;
         }
         if (Number.isInteger(+event.target.value)) {
@@ -44,8 +41,7 @@ const PDF = () => {
     }
 
     const clickForwardHandler = () => {
-        if(!pageNumber || pageNumber === numPages) {
-            setEnableForward(true);
+        if (!pageNumber || pageNumber === numPages) {
             return;
         }
         if (pageNumber !== numPages) {
@@ -54,8 +50,7 @@ const PDF = () => {
     }
 
     const clickBackHandler = () => {
-        if(!pageNumber || pageNumber === 1) {
-            setEnableBack(true);
+        if (!pageNumber || pageNumber === 1) {
             return;
         }
         if (pageNumber !== 1) {
@@ -64,19 +59,30 @@ const PDF = () => {
     }
 
     const clickFirstHandler = () => {
-        if(!pageNumber || pageNumber === 1) {
-            setEnableFirst(true);
+        if (!pageNumber || pageNumber === 1) {
             return;
         }
         setPageNumber(1);
     }
 
     const clickLastHandler = () => {
-        if(!pageNumber || pageNumber === numPages) {
-            setEnableBack(true);
+        if (!pageNumber || pageNumber === numPages) {
             return;
         }
         setPageNumber(numPages);
+    }
+
+    const changeZoomHandler = (event, type) => {
+        console.log(zoom, Math.round(zoom));
+        if(Math.round(zoom) === 0 || Math.round(zoom) > 2) {
+            return;
+        }
+        if(type === '+') {
+            setZoom(prev => prev + 0.1);
+        }
+        if(type === '-') {
+            setZoom(prev => prev - 0.1);
+        }
     }
 
     return (
@@ -86,11 +92,21 @@ const PDF = () => {
                 {
                     file.length === 0 ?
                         isDragActive ?
-                        <Typography variant="body1" gutterBottom>Перетащите файл сюда ...</Typography>
-                        :
-                        <Typography variant="body1" gutterBottom>
-                            Перетащите файл сюда или нажмите и выберете файл
-                        </Typography>
+                            <Typography
+                                variant="body1"
+                                gutterBottom
+                                style={{margin: 0, textAlign: 'center'}}
+                            >
+                                Перетащите файл сюда ...
+                            </Typography>
+                            :
+                            <Typography
+                                variant="body1"
+                                gutterBottom
+                                style={{margin: 0, textAlign: 'center'}}
+                            >
+                                Перетащите файл сюда или нажмите и выберете файл
+                            </Typography>
                         : (
                             <span className="dropzone__input-name">
                                 {file[0].name}
@@ -110,15 +126,13 @@ const PDF = () => {
                 clickBack={clickBackHandler}
                 clickFirstPage={clickFirstHandler}
                 clickLastPage={clickLastHandler}
-                isEnableForward={isEnableForward}
-                isEnableBack={isEnableBack}
-                isEnableFirst={isEnableFirst}
-                isEnableLast={isEnableLast}
+                zoom={zoom * 100}
+                changeZoomHandler={changeZoomHandler}
             />
             {
                 file.length !== 0 ?
                     <Document file={file.length !== 0 ? file[0] : null} onLoadSuccess={onDocumentLoadSuccess}>
-                        <Page pageNumber={pageNumber} className="page" />
+                        <Page pageNumber={pageNumber} className="page" scale={zoom} />
                     </Document>
                     :
                     <Typography className="text-container" variant="h6" gutterBottom component="div">
