@@ -73,15 +73,15 @@ const PDF = () => {
     }
 
     const changeZoomHandler = (event, type) => {
-        console.log(zoom, Math.round(zoom));
-        if(Math.round(zoom) === 0 || Math.round(zoom) > 2) {
-            return;
-        }
         if(type === '+') {
-            setZoom(prev => prev + 0.1);
+            if(Math.round(zoom) >= 0 && Math.round(zoom) <= 2) {
+                setZoom(prev => prev + 0.1);
+            }
         }
         if(type === '-') {
-            setZoom(prev => prev - 0.1);
+            if(Math.round(zoom) >= 1 && Math.round(zoom) <= 3) {
+                setZoom(prev => prev - 0.1);
+            }
         }
     }
 
