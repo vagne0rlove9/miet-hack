@@ -1,0 +1,23 @@
+.type-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 200px;
+}
+
+.type-card:hover {
+    cursor: pointer;
+}
+
+.type-card__content {
+  display: flex;
+  justify-items: center;
+  flex-direction: column;
+}
+
+.type-card__content-img {
+  margin: auto;
+  height: 50px;
+  margin-bottom: 8px;
+}

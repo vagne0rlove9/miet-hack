@@ -1,0 +1,24 @@
+.dropzone {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+    background-color: rgb(221, 220, 220);
+    border: 2px dashed rgb(172, 172, 172);
+    border-radius: 10px;
+}
+
+.dropzone__input {
+
+}
+
+.dropzone__input-name {
+    display: flex;
+    align-items: center;
+}
+
+.page {
+    display: flex;
+    justify-content: center;
+}
