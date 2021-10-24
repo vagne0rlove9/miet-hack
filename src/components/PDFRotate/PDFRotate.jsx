@@ -14,6 +14,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
+import { saveAs } from 'file-saver';
 
 import './PDFRotate.css';
 
@@ -25,6 +26,7 @@ const PDFRotate = () => {
     const [zoom, setZoom] = useState(1);
     const [file, setFile] = useState([]);
     const [angle, setAngle] = useState(null);
+    const [range, setRange] = useState(null);
     const ref = useRef(null);
 
     const onDrop = useCallback(acceptedFiles => {
@@ -45,6 +47,8 @@ const PDFRotate = () => {
 
         var formData = new FormData();
         formData.append("file", file[0]);
+        formData.append("instructionPageRange", range);
+        formData.append("degreeForRotate", angle);
         axios.post('/v1/pdfs/rotate/all', formData, {
             headers: { 'Content-Type': 'multipart/form-data' }
         });
@@ -157,7 +161,7 @@ const PDFRotate = () => {
                     >
                         <div>
                             <FormControlLabel value="pages" control={<Radio />} label="Номера страниц" />
-                            <input className="form__input" placeholder="Например: 1, 2-5" />
+                            <input className="form__input" placeholder="Например: 1, 2-5" onChange={(event) => setRange(event.target.value)} />
                         </div>
                         <FormControlLabel value="all" control={<Radio />} label="Весь документ" />
                     </RadioGroup>
