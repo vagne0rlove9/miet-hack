@@ -46,6 +46,23 @@ const PDFDelete = () => {
         });
     }
 
+    const click = () => {
+        var formData = new FormData();
+        formData.append("file", file[0]);
+        formData.append("instructionPageRange", '1-5');
+        axios.post('/v1/pdfs/rotate/all', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        }).then(response => {
+            const file = new Blob(
+                [response.data],
+                { type: 'application/pdf' });
+            //Build a URL from the file
+            const fileURL = URL.createObjectURL(file);
+            //Open the URL on new Window
+            window.open(fileURL);
+        });
+    }
+
     const deleteHandler = event => {
         event.stopPropagation();
         setFile([]);
@@ -157,6 +174,7 @@ const PDFDelete = () => {
                         variant="contained"
                         className="form__button"
                         endIcon={<SendIcon />}
+                        onClick={click}
                     >
                         Удалить
                     </Button>
