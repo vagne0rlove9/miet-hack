@@ -1,12 +1,19 @@
 .control-panel {
     padding: 20px;
-    background-color: #F7F7F7;
+    background-color: #e0dfdf;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto;
     margin-top: 16px;
 }
 
+@media screen and (max-width: 425px) {
+    .control-panel--width {
+        grid-template-columns: 1fr;
+        padding: 10px;
+        grid-gap: 8px;
+    }
+  }
 .control-panel__item {
     display: flex;
     justify-content: center;

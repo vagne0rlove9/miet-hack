@@ -27,22 +27,22 @@ const ControlPanel = ({
     changeZoomHandler
 }) => {
     return (
-        <div className="control-panel">
+        <div className="control-panel control-panel--width">
             <div className="control-panel__item">
-                <ZoomInIcon
+                <ZoomOutIcon
                     sx={{ color: grey[600] }}
                     className="control-panel__item-nav"
-                    onClick={(event) => changeZoomHandler(event, '+')}
+                    onClick={(event) => changeZoomHandler(event, '-')}
                 />
                 <input
                     className="control-panel__item-input-zoom"
                     value={zoom}
                     readOnly
                 />%
-                <ZoomOutIcon
+                <ZoomInIcon
                     sx={{ color: grey[600] }}
                     className="control-panel__item-nav"
-                    onClick={(event) => changeZoomHandler(event, '-')}
+                    onClick={(event) => changeZoomHandler(event, '+')}
                 />
             </div>
             <div className="control-panel__item">

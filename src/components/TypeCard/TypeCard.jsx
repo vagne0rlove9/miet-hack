@@ -5,12 +5,12 @@ import Typography from '@mui/material/Typography';
 
 import './TypeCard.css';
 
-const TypeCard = ({ name, clickHandler }) => {
+const TypeCard = ({ name, clickHandler, img }) => {
     return (
-        <Card className="type-card" onClick={clickHandler}>
-            <CardContent className="type-card__content">
-                <img src="icon.png" alt="" className="type-card__content-img" />
-                <Typography sx={{ fontSize: 18 }} color="text.primary" gutterBottom>
+        <Card className="type-card" onClick={clickHandler} >
+            <CardContent className="type-card__content" style={{padding: 10}}>
+                <img src={img} alt="" className="type-card__content-img" />
+                <Typography sx={{ fontSize: 18, margin: 0 }} color="text.primary" gutterBottom>
                     { name }
                 </Typography>
             </CardContent>

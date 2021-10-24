@@ -1,0 +1,10 @@
+body {
+    background-color: #EEEDF0;
+}
+
+.main-container {
+    padding-top: 32px;
+    width: 85%;
+    margin: auto;
+    min-width: 272px;
+}

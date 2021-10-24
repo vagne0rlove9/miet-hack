@@ -1,12 +1,14 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback } from 'react';
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 import { useDropzone } from 'react-dropzone';
-import ControlPanel from "../ControlPanel/ControlPanel";
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { pink } from '@mui/material/colors';
+import axios from 'axios';
 import Typography from '@mui/material/Typography';
+import ControlPanel from '../ControlPanel/ControlPanel';
+import Dropzone from '../Dropzone/Dropzone';
 
 import './PDF.css';
+
+axios.defaults.baseURL = 'http://localhost:8080/';
 
 const PDF = () => {
     const [numPages, setNumPages] = useState(null);
@@ -23,6 +25,12 @@ const PDF = () => {
 
     const onDocumentLoadSuccess = ({ numPages }) => {
         setNumPages(numPages);
+
+        var formData = new FormData();
+        formData.append("file", file[0]);
+        axios.post('/v1/pdfs/rotate/all', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        });
     }
 
     const deleteHandler = event => {
@@ -73,51 +81,27 @@ const PDF = () => {
     }
 
     const changeZoomHandler = (event, type) => {
-        console.log(zoom, Math.round(zoom));
-        if(Math.round(zoom) === 0 || Math.round(zoom) > 2) {
-            return;
+        if (type === '+') {
+            if (Math.round(zoom) >= 0 && Math.round(zoom) <= 2) {
+                setZoom(prev => prev + 0.1);
+            }
         }
-        if(type === '+') {
-            setZoom(prev => prev + 0.1);
-        }
-        if(type === '-') {
-            setZoom(prev => prev - 0.1);
+        if (type === '-') {
+            if (Math.round(zoom) >= 1 && Math.round(zoom) <= 3) {
+                setZoom(prev => prev - 0.1);
+            }
         }
     }
 
     return (
         <div>
-            <div {...getRootProps()} className="dropzone">
-                <input {...getInputProps()} className="dropzone__input" />
-                {
-                    file.length === 0 ?
-                        isDragActive ?
-                            <Typography
-                                variant="body1"
-                                gutterBottom
-                                style={{margin: 0, textAlign: 'center'}}
-                            >
-                                Перетащите файл сюда ...
-                            </Typography>
-                            :
-                            <Typography
-                                variant="body1"
-                                gutterBottom
-                                style={{margin: 0, textAlign: 'center'}}
-                            >
-                                Перетащите файл сюда или нажмите и выберете файл
-                            </Typography>
-                        : (
-                            <span className="dropzone__input-name">
-                                {file[0].name}
-                                <DeleteForeverIcon
-                                    sx={{ color: pink[500] }}
-                                    onClick={deleteHandler}
-                                />
-                            </span>
-                        )
-                }
-            </div>
+            <Dropzone
+                getRootProps={getRootProps}
+                getInputProps={getInputProps}
+                isDragActive={isDragActive}
+                file={file}
+                deleteHandler={deleteHandler}
+            />
             <ControlPanel
                 page={pageNumber}
                 maxPage={numPages}

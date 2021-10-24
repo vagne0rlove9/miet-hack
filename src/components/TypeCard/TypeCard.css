@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  height: 200px;
+  height: 170px;
 }
 
 .type-card:hover {
@@ -18,6 +18,6 @@
 
 .type-card__content-img {
   margin: auto;
-  height: 50px;
+  height: 70px;
   margin-bottom: 8px;
 }
