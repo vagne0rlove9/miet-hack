@@ -14,7 +14,6 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
-import { saveAs } from 'file-saver';
 
 import './PDFRotate.css';
 
@@ -51,6 +50,14 @@ const PDFRotate = () => {
         formData.append("degreeForRotate", angle);
         axios.post('/v1/pdfs/rotate/all', formData, {
             headers: { 'Content-Type': 'multipart/form-data' }
+        }).then(response => {
+            const file = new Blob(
+                [response.data],
+                { type: 'application/pdf' });
+            //Build a URL from the file
+            const fileURL = URL.createObjectURL(file);
+            //Open the URL on new Window
+            window.open(fileURL);
         });
     }
 
